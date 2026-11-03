@@ -1,225 +1,250 @@
 /* ==========================================================
-   Pedro Poiato — Soluções Digitais
-   JavaScript puro: contatos configuráveis, menu, navegação.
+   Pedro Poiato — Soluções Digitais · V2
+   JavaScript puro. Animações respeitam prefers-reduced-motion
+   e são desativadas em dispositivos sem hover fino.
    ========================================================== */
 (function () {
   "use strict";
 
   var CONFIG = window.SITE_CONFIG || {};
-  var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
-  var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
-  /* ---------- Ano automático no rodapé ---------- */
-  $$("[data-year]").forEach(function (el) {
-    el.textContent = new Date().getFullYear();
-  });
+  /* ---------- Ano automático ---------- */
+  $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
-  /* ---------- Utilidades ---------- */
-  function digitsOnly(value) {
-    return String(value || "").replace(/\D+/g, "");
-  }
-
-  function setDisabled(el, disabled) {
-    if (!el) return;
-    el.setAttribute("aria-disabled", disabled ? "true" : "false");
-    el.classList.toggle("is-disabled", disabled);
-  }
-
-  /* ---------- Configuração do WhatsApp ---------- */
-  var whatsappNumber = digitsOnly(CONFIG.whatsappNumber);
-  var hasWhatsApp = whatsappNumber.length >= 10;
-  var whatsappUrl = hasWhatsApp
-    ? "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(CONFIG.whatsappMessage || "")
-    : "";
-
-  $$("[data-cta-whatsapp]").forEach(function (el) {
-    // Botões do cabeçalho e do hero: se o WhatsApp estiver configurado, abrem a conversa;
-    // caso contrário, levam à seção de contato.
-    if (hasWhatsApp) {
-      el.setAttribute("href", whatsappUrl);
-      el.setAttribute("target", "_blank");
-      el.setAttribute("rel", "noopener noreferrer");
-    }
-  });
-
-  var ctaMain = $("[data-cta-whatsapp-main]");
-  var ctaText = $("[data-cta-whatsapp-text]");
-  var ctaNote = $("[data-cta-note] span:last-child");
-
-  if (hasWhatsApp) {
-    ctaMain.setAttribute("href", whatsappUrl);
-    setDisabled(ctaMain, false);
-    if (ctaNote) ctaNote.textContent = "Resposta em horário comercial";
-  } else {
-    ctaMain.setAttribute("href", "#contato");
-    ctaMain.addEventListener("click", function (e) { e.preventDefault(); });
-    setDisabled(ctaMain, true);
-    if (ctaText) ctaText.textContent = "WhatsApp em configuração";
-    if (ctaNote) ctaNote.textContent = "Contato em configuração";
-  }
-
-  var whatsappCard = $("[data-whatsapp-card]");
-  var whatsappHint = $("[data-whatsapp-hint]");
-  if (hasWhatsApp) {
-    whatsappCard.setAttribute("href", whatsappUrl);
-    whatsappCard.setAttribute("aria-disabled", "false");
-    whatsappCard.classList.remove("is-disabled");
-    if (whatsappHint) {
-      whatsappHint.textContent = "Abrir conversa";
-      whatsappHint.classList.add("ok");
-    }
-  } else {
-    whatsappCard.addEventListener("click", function (e) { e.preventDefault(); });
-    whatsappCard.classList.add("is-disabled");
-    whatsappCard.setAttribute("aria-disabled", "true");
-  }
-
-  /* ---------- E-mail ---------- */
-  var email = String(CONFIG.email || "").trim();
-  var hasEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  var emailCard = $("[data-email-card]");
-  var emailValue = $("[data-email-value]");
-  var emailHint = $("[data-email-hint]");
-  var emailQuick = $("[data-email-quick]");
-  var emailQuickText = $("[data-email-quick-text]");
-  var emailSep = $("[data-email-sep]");
-
-  if (hasEmail) {
-    emailValue.textContent = email;
-    emailHint.textContent = "Clique para copiar";
-    emailHint.classList.add("ok");
-    emailCard.addEventListener("click", function () {
-      copyText(email).then(function (ok) {
-        emailHint.textContent = ok ? "Copiado!" : "Não foi possível copiar";
-        emailHint.classList.add("ok");
-        setTimeout(function () {
-          emailHint.textContent = "Clique para copiar";
-        }, 2000);
-      });
+  /* ---------- WhatsApp: um único ponto de verdade (config.js) ---------- */
+  var waNumber = String(CONFIG.whatsappNumber || "").replace(/\D+/g, "");
+  if (waNumber.length >= 10) {
+    var waUrl = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(CONFIG.whatsappMessage || "");
+    $$("[data-whatsapp-link], .whatsapp-fab").forEach(function (a) {
+      a.setAttribute("href", waUrl);
     });
-    if (emailQuick) {
-      emailQuick.setAttribute("href", "mailto:" + email);
-      emailQuick.hidden = false;
-      if (emailQuickText) emailQuickText.textContent = email;
-    }
-    if (emailSep) emailSep.hidden = false;
-  } else {
-    emailCard.disabled = true;
-    emailCard.classList.add("is-disabled");
   }
 
+  /* ---------- Copiar e-mail ---------- */
   function copyText(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
+    if (navigator.clipboard && window.isSecureContext) {
       return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return false; });
     }
     try {
       var ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "absolute";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      ta.select();
+      ta.value = text; ta.setAttribute("readonly", "");
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
       var ok = document.execCommand("copy");
       document.body.removeChild(ta);
       return Promise.resolve(ok);
-    } catch (err) {
-      return Promise.resolve(false);
-    }
+    } catch (e) { return Promise.resolve(false); }
   }
 
-  /* ---------- LinkedIn ---------- */
-  var linkedin = String(CONFIG.linkedin || "").trim();
-  var hasLinkedIn = /^https?:\/\/(www\.)?linkedin\.com\//i.test(linkedin);
-  var linkedinCard = $("[data-linkedin-card]");
-  var linkedinHint = $("[data-linkedin-hint]");
-  var linkedinQuick = $("[data-linkedin-quick]");
-  var linkedinSep = $("[data-linkedin-sep]");
-
-  if (hasLinkedIn) {
-    linkedinCard.setAttribute("href", linkedin);
-    linkedinCard.setAttribute("aria-disabled", "false");
-    linkedinCard.classList.remove("is-disabled");
-    if (linkedinHint) {
-      linkedinHint.textContent = "Abrir perfil";
-      linkedinHint.classList.add("ok");
-    }
-    if (linkedinQuick) {
-      linkedinQuick.setAttribute("href", linkedin);
-      linkedinQuick.setAttribute("target", "_blank");
-      linkedinQuick.setAttribute("rel", "noopener noreferrer");
-      linkedinQuick.hidden = false;
-    }
-    if (linkedinSep) linkedinSep.hidden = false;
-  } else {
-    linkedinCard.addEventListener("click", function (e) { e.preventDefault(); });
-    linkedinCard.classList.add("is-disabled");
-    linkedinCard.setAttribute("aria-disabled", "true");
-  }
-
-  /* ---------- Prévia de projetos: mensagem caso o GitHub esteja indisponível ---------- */
-  $$(".card-preview").forEach(function (img) {
-    img.addEventListener("error", function () { img.hidden = true; });
-    if (img.complete && img.naturalWidth === 0) img.hidden = true;
+  $$("[data-copy]").forEach(function (btn) {
+    var status = $("[data-copy-status]", btn);
+    var timer;
+    btn.addEventListener("click", function () {
+      copyText(btn.getAttribute("data-copy")).then(function (ok) {
+        if (status) status.textContent = ok ? "Copiado!" : "Não foi possível copiar";
+        btn.classList.toggle("is-copied", ok);
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          if (status) status.textContent = "Copiar";
+          btn.classList.remove("is-copied");
+        }, 2200);
+      });
+    });
   });
+
+  /* ---------- Cabeçalho: estado ao rolar + barra de progresso ---------- */
+  var header = $(".site-header");
+  var progress = $(".scroll-progress");
+  var heroBg = $(".hero-bg");
+  var ticking = false;
+
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    header.classList.toggle("is-scrolled", y > 24);
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if (progress) progress.style.setProperty("--p", max > 0 ? (y / max).toFixed(4) : 0);
+    if (heroBg && !reduceMotion.matches && y < window.innerHeight * 1.2) {
+      heroBg.style.transform = "translate3d(0," + (y * 0.25).toFixed(1) + "px,0)";
+    }
+    ticking = false;
+  }
+  window.addEventListener("scroll", function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  onScroll();
 
   /* ---------- Menu mobile ---------- */
   var toggle = $(".menu-toggle");
   var mobileNav = $("#mobile-nav");
-  var toggleIcon = toggle.querySelector(".material-symbols-outlined");
 
   function setMenu(open) {
-    mobileNav.classList.toggle("open", open);
+    mobileNav.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
     toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
-    if (toggleIcon) toggleIcon.textContent = open ? "close" : "menu";
+    document.body.style.overflow = open ? "hidden" : "";
   }
-
   toggle.addEventListener("click", function () {
-    setMenu(!mobileNav.classList.contains("open"));
+    setMenu(!mobileNav.classList.contains("is-open"));
   });
-
-  $$("a", mobileNav).forEach(function (link) {
-    link.addEventListener("click", function () { setMenu(false); });
-  });
-
+  $$("a", mobileNav).forEach(function (a) { a.addEventListener("click", function () { setMenu(false); }); });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") setMenu(false);
+    if (e.key === "Escape" && mobileNav.classList.contains("is-open")) {
+      setMenu(false); toggle.focus();
+    }
+  });
+  window.matchMedia("(min-width: 1024px)").addEventListener("change", function (e) {
+    if (e.matches) setMenu(false);
   });
 
-  /* ---------- Navegação ativa (scroll spy) ---------- */
-  var navLinks = $$("[data-nav]");
-  var sectionIds = navLinks.map(function (a) { return a.getAttribute("href").slice(1); });
-  var sections = sectionIds
-    .map(function (id) { return document.getElementById(id); })
-    .filter(Boolean);
-
-  function setActive(id) {
-    navLinks.forEach(function (a) {
-      var active = a.getAttribute("href") === "#" + id;
-      a.setAttribute("aria-current", active ? "true" : "false");
-    });
-  }
-
-  if ("IntersectionObserver" in window && sections.length) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) setActive(entry.target.id);
-      });
-    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
-    sections.forEach(function (s) { observer.observe(s); });
-  }
-
-  /* Links internos: fecha menu e mantém a rolagem suave do CSS */
+  /* ---------- Links internos com scroll suave e foco ---------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener("click", function (e) {
       var id = a.getAttribute("href").slice(1);
-      var target = id && document.getElementById(id);
+      var target = id ? document.getElementById(id) : null;
       if (!target) return;
-      if (a.hasAttribute("aria-disabled") && a.getAttribute("aria-disabled") === "true") return;
       e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
       history.replaceState(null, "", "#" + id);
     });
   });
+
+  /* ---------- Navegação ativa (Intersection Observer) ---------- */
+  var navLinks = $$("[data-nav]");
+  var sections = navLinks
+    .map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); })
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && sections.length) {
+    var navObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(function (a) {
+          a.classList.toggle("is-active", a.getAttribute("href") === "#" + entry.target.id);
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach(function (s) { navObserver.observe(s); });
+  }
+
+  /* ---------- Entrada do hero ---------- */
+  var hero = $(".hero");
+  function startHero() {
+    requestAnimationFrame(function () {
+      hero.classList.add("is-ready");
+      $$(".hero .reveal").forEach(function (el) { el.classList.add("is-visible"); });
+    });
+  }
+  if (reduceMotion.matches) { hero.classList.add("is-ready"); }
+  else if (document.readyState === "complete") { startHero(); }
+  else { window.addEventListener("load", startHero); }
+
+  /* ---------- Reveal ao rolar (IntersectionObserver) ---------- */
+  // Escalonamento: cada filho de .stagger recebe um atraso crescente.
+  $$(".stagger").forEach(function (group) {
+    $$(":scope > .reveal", group).forEach(function (el, i) {
+      el.style.setProperty("--d", (i * 110) + "ms");
+    });
+  });
+
+  var revealEls = $$(".reveal").filter(function (el) { return !el.closest(".hero"); });
+
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+    revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  /* ---------- Prévias: fallback elegante se a imagem ainda não existir ---------- */
+  var FALLBACK_TEXT = {
+    gestao: "Poiato Gestão",
+    crm: "Poiato CRM",
+    garantias: "Poiato Garantias"
+  };
+
+  $$("img[data-fallback]").forEach(function (img) {
+    var view = img.parentElement;
+    var key = img.getAttribute("data-fallback");
+    function showFallback() {
+      if (view.classList.contains("is-fallback")) return;
+      var box = document.createElement("div");
+      box.className = "preview-fallback";
+      box.setAttribute("aria-hidden", "true");
+      box.innerHTML =
+        '<span class="material-symbols-outlined">desktop_windows</span>' +
+        "<strong>" + FALLBACK_TEXT[key] + "</strong>" +
+        "<span>Prévia da demonstração</span>";
+      view.appendChild(box);
+      view.classList.add("is-fallback");
+    }
+    img.addEventListener("error", showFallback);
+    if (img.complete && img.naturalWidth === 0) showFallback();
+  });
+
+  /* ---------- Efeitos de ponteiro (somente com mouse/trackpad) ---------- */
+  if (canHover.matches && !reduceMotion.matches) {
+    document.body.classList.add("has-cursor");
+
+    /* Cursor glow */
+    var glow = $(".cursor-glow");
+    var gx = 0, gy = 0, tx = 0, ty = 0, glowRaf = null;
+    function glowLoop() {
+      gx += (tx - gx) * 0.15;
+      gy += (ty - gy) * 0.15;
+      glow.style.transform = "translate3d(" + gx.toFixed(1) + "px," + gy.toFixed(1) + "px,0)";
+      if (Math.abs(tx - gx) > 0.3 || Math.abs(ty - gy) > 0.3) glowRaf = requestAnimationFrame(glowLoop);
+      else glowRaf = null;
+    }
+    window.addEventListener("pointermove", function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!glowRaf) glowRaf = requestAnimationFrame(glowLoop);
+    }, { passive: true });
+
+    /* Tilt 3D + spotlight nos cards */
+    $$(".tilt").forEach(function (card) {
+      var rect = null;
+      var maxTilt = card.classList.contains("project-card") ? 5 : 7;
+
+      card.addEventListener("pointerenter", function () { rect = card.getBoundingClientRect(); });
+      card.addEventListener("pointermove", function (e) {
+        if (!rect) rect = card.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width;
+        var py = (e.clientY - rect.top) / rect.height;
+        var ry = (px - 0.5) * maxTilt * 2;
+        var rx = (0.5 - py) * maxTilt * 2;
+        card.style.transform =
+          "perspective(1100px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg) translateZ(0)";
+        card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+        card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+      });
+      card.addEventListener("pointerleave", function () {
+        rect = null;
+        card.style.transform = "";
+      });
+    });
+
+    /* Botões magnéticos */
+    $$(".magnetic").forEach(function (btn) {
+      btn.addEventListener("pointermove", function (e) {
+        var r = btn.getBoundingClientRect();
+        var x = (e.clientX - (r.left + r.width / 2)) * 0.22;
+        var y = (e.clientY - (r.top + r.height / 2)) * 0.28;
+        btn.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0)";
+      });
+      btn.addEventListener("pointerleave", function () { btn.style.transform = ""; });
+    });
+  }
 })();

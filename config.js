@@ -1,15 +1,6 @@
 /*
-  CONFIGURAÇÃO DE CONTATO
-  ------------------------------------------------------------
-  Preencha os campos abaixo quando os dados estiverem confirmados.
-  Enquanto um campo estiver vazio, o botão correspondente aparece
-  como "Em configuração" e nenhum link falso é publicado.
-
-  whatsappNumber: somente dígitos, com DDI + DDD + número.
-                  Exemplo de formato: 5511999999999
-  email:          e-mail comercial confirmado.
-  linkedin:       URL completa do perfil, após confirmação.
-  github:         perfil do GitHub (já confirmado).
+  CONFIGURAÇÃO DE CONTATO — dados confirmados pelo proprietário.
+  whatsappNumber: somente dígitos (DDI + DDD + número).
 */
 window.SITE_CONFIG = {
   whatsappNumber: "5515998594858",
