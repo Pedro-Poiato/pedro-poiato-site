@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedro Poiato — Soluções Digitais</title>
+  <meta name="description" content="Criação de sites, landing pages, automações e sistemas personalizados. Conheça os projetos de Pedro Poiato.">
+  <meta name="theme-color" content="#0f131d">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Pedro Poiato — Soluções Digitais">
+  <meta property="og:description" content="Sites, landing pages, automações e sistemas personalizados. Conheça projetos e demonstrações de Pedro Poiato.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#sobre" aria-label="Pedro Poiato — início">
+        <img src="assets/logo.webp" alt="Logo Pedro Poiato — Soluções Digitais" width="160" height="36">
+      </a>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#sobre" data-nav>Sobre mim</a>
+        <a href="#projetos" data-nav>Projetos</a>
+        <a href="#servicos" data-nav>Serviços</a>
+        <a href="#contato" data-nav>Contato</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-cta header-cta" href="#contato" data-cta-whatsapp>Pedir Orçamento</a>
+        <span class="avatar" aria-hidden="true"><span class="material-symbols-outlined">person</span></span>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#sobre">Sobre mim</a>
+    <a href="#projetos">Projetos</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#contato">Contato</a>
+  </div>
+
+  <main>
+
+    <!-- ============ SOBRE MIM ============ -->
+    <div class="ambient">
+      <div class="glow glow-1" aria-hidden="true"></div>
+      <div class="glow glow-2" aria-hidden="true"></div>
+
+      <section class="hero" id="sobre" aria-labelledby="hero-title">
+        <div class="hero-grid">
+
+          <div class="hero-main">
+            <div class="badge">
+              <span class="pulse" aria-hidden="true"></span>
+              <span class="label-code">Soluções digitais sob medida</span>
+            </div>
+
+            <div class="hero-title">
+              <span class="eyebrow">// Portfólio de Engenharia de Software</span>
+              <h1 class="display" id="hero-title">Pedro Poiato</h1>
+              <p class="role">Soluções Digitais para o seu negócio</p>
+            </div>
+
+            <p class="hero-bio">
+              Crio sites, landing pages, automações e sistemas personalizados. O foco é entregar ferramentas claras e adequadas à rotina de cada cliente, com código organizado e fácil de manter.
+            </p>
+
+            <div class="stack">
+              <span class="stack-label">Tecnologias utilizadas nos projetos</span>
+              <div class="pills">
+                <span class="pill">Python</span>
+                <span class="pill">CustomTkinter</span>
+                <span class="pill">MySQL</span>
+                <span class="pill">HTML</span>
+                <span class="pill">CSS</span>
+                <span class="pill">JavaScript</span>
+                <span class="pill">Google Apps Script</span>
+              </div>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-cta btn-lg" href="#contato" data-cta-whatsapp>
+                <span class="material-symbols-outlined">chat</span>
+                <span>Solicitar Orçamento</span>
+              </a>
+              <a class="btn btn-ghost btn-lg" href="#projetos">
+                <span>Ver Projetos</span>
+                <span class="material-symbols-outlined" style="font-size:18px;color:var(--secondary)">arrow_downward</span>
+              </a>
+            </div>
+
+            <div class="quick-links">
+              <a href="https://github.com/Pedro-Poiato" target="_blank" rel="noopener noreferrer" data-github>
+                <span class="material-symbols-outlined">terminal</span><span>GitHub</span>
+              </a>
+              <span class="sep" data-linkedin-sep hidden>/</span>
+              <a href="#contato" data-linkedin-quick hidden>
+                <span class="material-symbols-outlined">share</span><span>LinkedIn</span>
+              </a>
+              <span class="sep" data-email-sep hidden>/</span>
+              <a href="#contato" data-email-quick hidden>
+                <span class="material-symbols-outlined">mail</span><span data-email-quick-text>E-mail</span>
+              </a>
+            </div>
+          </div>
+
+          <aside class="terminal" aria-label="Resumo técnico">
+            <div class="terminal-top">
+              <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="filename">poiato.config.ts</span>
+            </div>
+
+            <div class="code">
+              <p><span class="kw">const</span> portfolio = {</p>
+              <p class="indent">owner: <span class="str">'Pedro Poiato'</span>,</p>
+              <p class="indent">focus: [<span class="str">'sites'</span>, <span class="str">'landing pages'</span>, <span class="str">'automações'</span>, <span class="str">'sistemas'</span>],</p>
+              <p class="indent">projects: <span class="bool">3</span>,</p>
+              <p class="indent">demos: <span class="str">'HTML · CSS · JavaScript'</span>,</p>
+              <p class="indent">originals: <span class="str">'Python · MySQL · Apps Script'</span></p>
+              <p>};</p>
+            </div>
+
+            <div class="terminal-foot">
+              <div class="terminal-foot-row">
+                <span class="muted">Projetos publicados</span>
+                <span class="ok">3 / 3 no GitHub</span>
+              </div>
+              <svg viewBox="0 0 280 44" fill="none" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 32 L40 26 L80 34 L120 18 L160 22 L200 10 L240 14 L280 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+                <path d="M0 32 L40 26 L80 34 L120 18 L160 22 L200 10 L240 14 L280 4 L280 44 L0 44 Z" fill="currentColor" fill-opacity="0.12"></path>
+                <circle cx="280" cy="4" r="3.5" fill="#3de273"></circle>
+              </svg>
+            </div>
+          </aside>
+
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ PROJETOS ============ -->
+    <section class="section section-dark" id="projetos" aria-labelledby="projetos-title">
+      <div class="container">
+        <div class="section-top">
+          <div class="section-head">
+            <span class="eyebrow">// Portfólio Técnico</span>
+            <h2 class="headline-lg" id="projetos-title">Projetos em Destaque</h2>
+            <p>Demonstrações públicas em navegador, criadas com dados fictícios, baseadas em sistemas que desenvolvi. As versões originais não estão publicadas.</p>
+          </div>
+          <span class="counter">03 Projetos</span>
+        </div>
+
+        <div class="projects-grid">
+
+          <!-- Poiato Gestão -->
+          <article class="card">
+            <div class="card-media">
+              <div class="placeholder-grid" aria-hidden="true"></div>
+              <span class="placeholder-label">Prévia temporariamente indisponível</span>
+              <img class="card-preview" src="https://raw.githubusercontent.com/Pedro-Poiato/poiato-gestao-demo/main/preview_dashboard.png" alt="Captura da demonstração pública do Poiato Gestão" loading="lazy" decoding="async" />
+              <span class="card-tag">Demo 01</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Poiato Gestão</h3>
+              <p class="card-desc">Demonstração de gestão operacional com atendimentos, catálogo de produtos com custos, pregões e contratos, indicadores e relatórios exportáveis. Os registros são fictícios.</p>
+              <div class="tech-group">
+                <span class="tech-label">Demo</span>
+                <div class="tech-badges">
+                  <span class="tech-badge">HTML</span>
+                  <span class="tech-badge">CSS</span>
+                  <span class="tech-badge">JavaScript</span>
+                </div>
+              </div>
+              <div class="tech-group">
+                <span class="tech-label">Sistema original (desktop)</span>
+                <div class="tech-badges">
+                  <span class="tech-badge">Python</span>
+                  <span class="tech-badge">CustomTkinter</span>
+                  <span class="tech-badge">MySQL</span>
+                </div>
+              </div>
+              <div class="card-links">
+                <a class="card-link" href="https://github.com/Pedro-Poiato/poiato-gestao-demo" target="_blank" rel="noopener noreferrer">
+                  <span class="material-symbols-outlined">terminal</span><span>Repositório</span>
+                </a>
+                <a class="card-link primary" href="https://pedro-poiato.github.io/poiato-gestao-demo/" target="_blank" rel="noopener noreferrer">
+                  <span>Abrir demo</span><span class="material-symbols-outlined">open_in_new</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Poiato CRM -->
+          <article class="card">
+            <div class="card-media">
+              <div class="placeholder-grid" aria-hidden="true"></div>
+              <span class="placeholder-label">Prévia temporariamente indisponível</span>
+              <img class="card-preview" src="https://raw.githubusercontent.com/Pedro-Poiato/poiato-crm-demo/main/preview.png" alt="Captura da demonstração pública do Poiato CRM" loading="lazy" decoding="async" />
+              <span class="card-tag">Demo 02</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Poiato CRM</h3>
+              <p class="card-desc">Versão de demonstração de um CRM com dashboard, leads com filtros, funil Kanban, ficha detalhada, auditoria da sessão e exportação CSV. Os dados são fictícios.</p>
+              <div class="tech-group">
+                <span class="tech-label">Demo</span>
+                <div class="tech-badges">
+                  <span class="tech-badge">HTML</span>
+                  <span class="tech-badge">CSS</span>
+                  <span class="tech-badge">JavaScript</span>
+                </div>
+              </div>
+              <div class="tech-group">
+                <span class="tech-label">Sistema original (desktop)</span>
+                <div class="tech-badges">
+                  <span class="tech-badge">Python</span>
+                  <span class="tech-badge">CustomTkinter</span>
+                  <span class="tech-badge">MySQL</span>
+                </div>
+              </div>
+              <div class="card-links">
+                <a class="card-link" href="https://github.com/Pedro-Poiato/poiato-crm-demo" target="_blank" rel="noopener noreferrer">
+                  <span class="material-symbols-outlined">terminal</span><span>Repositório</span>
+                </a>
+                <a class="card-link primary" href="https://pedro-poiato.github.io/poiato-crm-demo/" target="_blank" rel="noopener noreferrer">
+                  <span>Abrir demo</span><span class="material-symbols-outlined">open_in_new</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Poiato Garantias -->
+          <article class="card">
+            <div class="card-media">
+              <div class="placeholder-grid" aria-hidden="true"></div>
+              <span class="placeholder-label">Prévia temporariamente indisponível</span>
+              <img class="card-preview" src="https://raw.githubusercontent.com/Pedro-Poiato/poiato-garantias-demo/main/preview.png" alt="Captura da demonstração pública do Poiato Garantias" loading="lazy" decoding="async" />
+              <span class="card-tag">Demo 03</span>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Poiato Garantias</h3>
+              <p class="card-desc">Protótipo de uma central de pré-garantias e garantias, com protocolos fictícios, fluxo de etapas, painel de pendências e histórico de movimentações.</p>
+              <div class="tech-group">
+                <span class="tech-label">Demo</span>
+                <div class="tech-badges">
+                  <span class="tech-badge">HTML</span>
+                  <span class="tech-badge">CSS</span>
+                  <span class="tech-badge">JavaScript</span>
+                </div>
+              </div>
+              <div class="tech-group">
+                <span class="tech-label">Sistema original</span>
+                <div class="tech-badges">
+                  <span class="tech-badge">Google Apps Script</span>
+                  <span class="tech-badge">HTML</span>
+                  <span class="tech-badge">JavaScript</span>
+                </div>
+              </div>
+              <div class="card-links">
+                <a class="card-link" href="https://github.com/Pedro-Poiato/poiato-garantias-demo" target="_blank" rel="noopener noreferrer">
+                  <span class="material-symbols-outlined">terminal</span><span>Repositório</span>
+                </a>
+                <a class="card-link primary" href="https://pedro-poiato.github.io/poiato-garantias-demo/" target="_blank" rel="noopener noreferrer">
+                  <span>Abrir demo</span><span class="material-symbols-outlined">open_in_new</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVIÇOS ============ -->
+    <section class="section" id="servicos" aria-labelledby="servicos-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">// Atuação Profissional</span>
+          <h2 class="headline-lg" id="servicos-title">Serviços</h2>
+          <p>Sites, landing pages, automações e sistemas sob medida para empresas e profissionais que precisam de ferramentas digitais claras e funcionais.</p>
+        </div>
+
+        <div class="services-grid">
+
+          <article class="service">
+            <div class="service-top">
+              <span class="service-num">01</span>
+              <span class="service-tag">Web Institucional</span>
+            </div>
+            <h3>Criação de Sites</h3>
+            <p>Sites institucionais e apresentações de empresa, responsivos para computador e celular, com navegação simples e organizada.</p>
+            <div class="service-list">
+              <span class="label">Entregáveis</span>
+              <ul>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Layout responsivo para desktop e mobile</span></li>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Navegação por seções e links de contato</span></li>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Código em HTML, CSS e JavaScript</span></li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="service">
+            <div class="service-top">
+              <span class="service-num">02</span>
+              <span class="service-tag">Captação</span>
+            </div>
+            <h3>Landing Pages</h3>
+            <p>Páginas objetivas para uma campanha ou oferta, com uma ação principal bem destacada, como solicitar orçamento.</p>
+            <div class="service-list">
+              <span class="label">Entregáveis</span>
+              <ul>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Estrutura focada em uma ação principal</span></li>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Botões de contato configuráveis (WhatsApp, e-mail)</span></li>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Layout responsivo</span></li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="service">
+            <div class="service-top">
+              <span class="service-num">03</span>
+              <span class="service-tag">Sob Medida</span>
+            </div>
+            <h3>Automações e Sistemas</h3>
+            <p>Painéis, cadastros, controles de atendimento e fluxos de trabalho desenvolvidos conforme a regra de negócio da sua operação.</p>
+            <div class="service-list">
+              <span class="label">Entregáveis</span>
+              <ul>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Cadastros, filtros e relatórios personalizados</span></li>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Fluxos de acompanhamento e histórico de operações</span></li>
+                <li><span class="material-symbols-outlined">check_circle</span><span>Documentação de uso para a equipe</span></li>
+              </ul>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTATO ============ -->
+    <section class="section section-dark" id="contato" aria-labelledby="contato-title">
+      <div class="container contact">
+        <div class="contact-head">
+          <span class="eyebrow">// Início Rápido</span>
+          <h2 class="headline-lg" id="contato-title">Vamos tirar o seu projeto do papel?</h2>
+          <p>Conte o que você precisa e alinhamos escopo, prazo e orçamento diretamente com quem desenvolve a solução.</p>
+        </div>
+
+        <div class="contact-cta">
+          <a class="btn btn-cta" data-cta-whatsapp-main href="#contato" rel="noopener noreferrer" target="_blank">
+            <span class="material-symbols-outlined">chat</span>
+            <span data-cta-whatsapp-text>Pedir Orçamento via WhatsApp</span>
+          </a>
+          <span class="cta-note" data-cta-note>
+            <span class="dot" aria-hidden="true"></span>
+            <span>Contato em configuração</span>
+          </span>
+        </div>
+
+        <div class="contact-grid">
+          <button class="contact-card" type="button" data-email-card>
+            <div class="contact-card-top">
+              <span class="material-symbols-outlined" style="color:var(--primary)">mail</span>
+              <span class="hint" data-email-hint>Em configuração</span>
+            </div>
+            <span class="label-line">E-mail</span>
+            <span class="value" data-email-value>Em configuração</span>
+          </button>
+
+          <a class="contact-card" href="#contato" data-linkedin-card rel="noopener noreferrer" target="_blank" aria-disabled="true">
+            <div class="contact-card-top">
+              <span class="material-symbols-outlined" style="color:var(--secondary)">badge</span>
+              <span class="material-symbols-outlined" style="color:var(--outline);font-size:18px">open_in_new</span>
+            </div>
+            <span class="label-line">Rede profissional</span>
+            <span class="value">LinkedIn</span>
+            <span class="hint" data-linkedin-hint>Em configuração</span>
+          </a>
+
+          <a class="contact-card" href="https://github.com/Pedro-Poiato" data-github-card rel="noopener noreferrer" target="_blank">
+            <div class="contact-card-top">
+              <span class="material-symbols-outlined" style="color:var(--secondary-fixed)">code</span>
+              <span class="material-symbols-outlined" style="color:var(--outline);font-size:18px">open_in_new</span>
+            </div>
+            <span class="label-line">Repositórios</span>
+            <span class="value">GitHub</span>
+            <span class="hint ok">github.com/Pedro-Poiato</span>
+          </a>
+
+          <a class="contact-card" data-whatsapp-card href="#contato" rel="noopener noreferrer" target="_blank" aria-disabled="true">
+            <div class="contact-card-top">
+              <span class="material-symbols-outlined" style="color:var(--tertiary)">phone_iphone</span>
+              <span class="material-symbols-outlined" style="color:var(--outline);font-size:18px">open_in_new</span>
+            </div>
+            <span class="label-line">Conversa direta</span>
+            <span class="value">WhatsApp</span>
+            <span class="hint" data-whatsapp-hint>Em configuração</span>
+          </a>
+        </div>
+
+        <p class="commit">Projetos reais, dados fictícios nas demonstrações · Entrega orientada a valor</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong>Pedro Poiato</strong>
+        <p>© <span data-year>2026</span> Pedro Poiato — Soluções Digitais. Todos os direitos reservados.</p>
+      </div>
+      <nav class="footer-links" aria-label="Links do rodapé">
+        <a href="https://github.com/Pedro-Poiato" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#contato">Contato</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
